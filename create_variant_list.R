@@ -64,7 +64,8 @@ bim7 = bim6[!bim6$GENE %in% geneMissing,]
 
 ### range file format
 ## CHR START_POS END_POS SETNAME
-rangeF <- bim7[,c("CHR2", "POS", "POS", "GENE")]
+#rangeF <- bim7[,c("CHR2", "POS", "POS", "GENE")]
+rangeF <- bim7[,c("V2")]
 write.table(rangeF, idfile, quote=F, row.names=F, col.names=F)
 
 allele <- bim7[,c("V2", "ALT")]

@@ -4,26 +4,22 @@
 ##############################################
 createWeightMatrix <- function(extract_output=NA, studyAnno=NA, databaseAnno=NA, geneSeg_file=NA, varSeg_file=NA, pheno_file, pheno, qpheno)
 {	if(anyNA(pheno_file)|anyNA(qpheno)|anyNA(pheno))
-	{	stop("The phenotype file and the name of the column for the quantitative phenotype is required!")
+	{	stop("The phenotype file and the name of the column for the quantitative phenotype are required!")
 	}
 	geneSeg = read.csv(geneSeg_file, check.names=FALSE)
 	fams <- colnames(geneSeg)[-c(1,2, ncol(geneSeg))]
 	nfam = length(fams)
 	subjInfo = read.table(pheno_file, header=T)
 		
-	if((anno_name)=="None")
-	{	
-		## the weights are the same for all the genes
-		familyWeight = rep(0, nfam)
-		for(i in 1:nfam)
-		{	cases = subjInfo[subjInfo$FID==fams[i]&subjInfo[,eval(pheno)]==2&!is.na(subjInfo[,eval(pheno)]),]
-			familyWeight[i] = mean(cases[,eval(qpheno)], na.rm=TRUE)
-		}
-		familyWeight2 = familyWeight/sum(familyWeight)
-		familyWeight3 = data.frame(FID=fams, weight=familyWeight2)
-		return (list(weight=familyWeight3))
-	
+	## the weights are the same for all the genes
+	familyWeight = rep(0, nfam)
+	for(i in 1:nfam)
+	{	cases = subjInfo[subjInfo$FID==fams[i]&subjInfo[,eval(pheno)]==2&!is.na(subjInfo[,eval(pheno)]),]
+		familyWeight[i] = mean(cases[,eval(qpheno)], na.rm=TRUE)
 	}
+	familyWeight2 = familyWeight/sum(familyWeight)
+	familyWeight3 = data.frame(FID=fams, weight=familyWeight2)
+	return (list(weight=familyWeight3))
 	
 }
 
