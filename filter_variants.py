@@ -30,7 +30,6 @@ def select_variants(annoFile, output, missense, minCADD,maxMAF, noFilter_conseq=
 	
 	minCADD = float(minCADD)
 	maxMAF = float(maxMAF)
-	print noFilter_conseq
 	with open(annoFile, 'r') as f:
 		for line in f:
 			
@@ -113,7 +112,6 @@ def select_variants(annoFile, output, missense, minCADD,maxMAF, noFilter_conseq=
 			
 					
 				
-			print noFilter_conseq	
 			if noFilter_conseq:
 				login = 'no filter is used \n'
 				conseq = snpeff

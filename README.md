@@ -26,7 +26,7 @@ GESEpipeline.py: starting program, accepting parameter inputs
 
 		- fam_file: a file containing the complete pedigree information of the sequenced families. It should include all the subjects in the family even if they were not sequenced. The columns of this file includes at least, FID (family ID), IID (individual ID), faID (father ID, NA if missing), moID(mother ID, NA if missing), and sex.
 
-		- pheno_file: a file containing the phenotypes of the sequenced subjects to be included in the analysis, it should include at least FID, IID, and a column for the disease status. The column name for disease status can be specified using pheno.
+		- pheno_file: a tab-delimited file containing the phenotypes of the sequenced subjects to be included in the analysis, it should include at least FID, IID, and a column for the disease status in the header. The column name for disease status can be specified using pheno.
 
 		- pheno: specify the column name for disease status in the pheno_file.
 
@@ -148,3 +148,7 @@ Added maf cutoff in the controls in the data, set default to be 1%. Needs to rer
 - Revised how gene symbol is defined. WGSA0.55 used previous HGNC gene symbol, not consistent with EXAC. If the gene name collumn in WGSA output is not in any of the SNPEFF annotated gene name, then SNPEFF gene name corresponding to the most functionally deleterious annotation is used.
 - Add in arguments for the pipeline to specify script location, R and plink version 1.9 executable file locations.
 
+11/15/2016
+- In GESE package, updated the condSegProbF function and the segProb function, so each common ancestor is considered separately.
+- In GESE package, updated the segProb and the GESE function, gives an MAF estimate for variants absent in the reference database, but present in the study
+- Update package description

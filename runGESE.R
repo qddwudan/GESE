@@ -38,7 +38,7 @@ ped <- pedigree(id=pednew$IID, dadid=pednew$faID, momid = pednew$moID, sex=pedne
 map <- read.table(paste(extract_output, ".bim", sep=""))
 snpInfo <- read.table(studyAnno, header=T)
 mapInfo <- merge(map, snpInfo, by.x="V2", by.y="SNP", sort=F)
-mapInfo <- mapInfo[,c("V2", "GENE")]
+mapInfo <- mapInfo[,c("chrPos", "GENE")]
 colnames(mapInfo) <- c("SNP", "GENE")
 
 ## database info
@@ -63,7 +63,7 @@ datad$PHENOTYPE[phenoNew] = phenoInfo[,eval(pheno)]-1
 if(familyWeightF!="None")
 {	## we need to read in the weighting scheme
 	familyWeight = read.table(familyWeightF, header=T, check.name=FALSE)
-	gese <- GESE(pednew,  variantInfo, datad, mapInfo, threshold=1e-7, onlySeg=F, familyWeight=familyWeight )
+	gese <- GESE(pednew,  variantInfo, 33855, datad, mapInfo, threshold=1e-7, onlySeg=F, familyWeight=familyWeight )
 	geseOutput <- paste(strsplit(familyWeightF, "[.]")[[1]][1], "_gese_weighted.csv", sep="")
 	write.csv(gese$results[order(gese$results$pvalue_weighted),], geseOutput)
 
@@ -102,7 +102,7 @@ if(familyWeightF!="None")
 		}
 	}else
 	{
-		gese <- GESE(pednew,  variantInfo, datad, mapInfo, threshold=1e-7, onlySeg=F)
+		gese <- GESE(pednew,  variantInfo, 33855, datad, mapInfo, threshold=1e-7, onlySeg=F)
 		write.csv(gese$segregation, paste(extract_output, "_geneSeg.csv", sep=""))
 		write.csv(gese$varSeg, paste(extract_output, "_varSeg.csv", sep=""))
 		write.csv(gese$results[order(gese$results$pvalue),], paste(extract_output, "_gese.csv", sep=""))

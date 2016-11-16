@@ -41,7 +41,7 @@ def runGESE(project_name, scriptPATH, RscriptEXE, plinkEXE, plinkfile, studyAnno
 	
 	#### get complete annotation information for databaseAnno
 	logger.info("annotation file for the database")
-	outputfileAll = "ExAC_r0.3.annotated_anno_all.txt"
+	outputfileAll = "/udd/redaq/try/ExAC_r0.3.annotated_anno_all.txt"
 	#cmdline = "select_variants "+ databaseAnno + " "+ outputfileAll +" False -1 1 True False False False"
 	#logger.info(cmdline)
 	#select_variants(databaseAnno, outputfileAll, missense=False, minCADD=-1,  maxMAF=1, noFilter_conseq=True)
@@ -72,10 +72,11 @@ def runGESE(project_name, scriptPATH, RscriptEXE, plinkEXE, plinkfile, studyAnno
 	os.system(subj_list)
 	
 	#### compute the MAF in the controls 
-	freq_output = splitext(basename(pheno_file))[0] + "_" + project_name + "_maf"
-	cmd = "{0} --bfile {1} --keep {2} --nonfounders --freq --out {3}".format(plinkEXE, plinkfile, control_output, freq_output)
-	logger.info(cmd)
-	os.system(cmd)
+	if os.path.isfile(control_output):
+		freq_output = splitext(basename(pheno_file))[0] + "_" + project_name + "_maf"
+		cmd = "{0} --bfile {1} --keep {2} --nonfounders --freq --out {3}".format(plinkEXE, plinkfile, control_output, freq_output)
+		logger.info(cmd)
+		os.system(cmd)
 	
 	### write the variant range and create an allele file
 	logger.info("Create variant list and allele file")
@@ -304,6 +305,9 @@ if __name__ == "__main__":
 		runGESE(project_name,  script_dir, Rscript_exec, plink_exec, plinkfile, studyAnno, databaseAnno, fam_file, pheno_file, pheno, missense, sift, polyphen2, fathmm, minCADD, maxMAF, maxMAF_control, segOnly, recessive, dominant, CH,  familyWeight)
 	elif args['which'] == "rerun":
 		project_name = args['project_name']
+		script_dir = args['script_dir']
+		Rscript_exec = args['Rscript_exec']
+		plink_exec = args['plink_exec']
 		plinkfile = args['plink_file']
 		studyAnno = args['studyAnno']
 		databaseAnno = args['databaseAnno']

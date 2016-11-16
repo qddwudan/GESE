@@ -18,4 +18,7 @@ write.table(pheno2, output_file, quote=F, row.names=F, col.names=F)
 
 ### controls 
 controls = phenoInfo[phenoInfo[, eval(pheno)] == 1, 1:2]
+if(nrow(controls)>0)
+{
 write.table(controls, output_file_control, quote=F, row.names=F, col.names=F)
+}
